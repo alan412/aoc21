@@ -1,5 +1,6 @@
 import argparse
 import re
+import time
 
 
 def parseArgs():
@@ -45,4 +46,8 @@ def puzzle(filename, numDays):
 if __name__ == "__main__":
   args = parseArgs()
 
-  print(f"Answer: {puzzle(args.infile, args.num_days)}")
+  startTime = time.time()
+  answer = puzzle(args.infile, args.num_days)
+  endTime = time.time()
+
+  print(f"Answer: {answer}\nTook: {endTime-startTime}")
