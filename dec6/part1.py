@@ -13,22 +13,20 @@ class LanternFishes():
 
   def __init__(self, line):
     self.lanternFish = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-    #    {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0}
     for value in line.split(','):
       days = int(value)
       self.lanternFish[days] = 1 + self.lanternFish[days]
 
   def newDay(self):
-    newFish = {}
-    for i in range(8):
-      newFish[i] = self.lanternFish[i + 1]
+    newFish = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+    newFish[0:8] = self.lanternFish[1:9]
     newFish[8] = self.lanternFish[0]
     newFish[6] += self.lanternFish[0]
     self.lanternFish = newFish
 
   def getNumFishes(self):
     sumFish = 0
-    for numFish in self.lanternFish.values():
+    for numFish in self.lanternFish:
       sumFish += numFish
     return sumFish
 
