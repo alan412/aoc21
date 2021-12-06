@@ -12,10 +12,11 @@ def parseArgs():
 class LanternFishes():
 
   def __init__(self, line):
-    self.lanternFish = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0}
+    self.lanternFish = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+    #    {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0}
     for value in line.split(','):
       days = int(value)
-      self.lanternFish[days] = 1 + self.lanternFish.get(days, 0)
+      self.lanternFish[days] = 1 + self.lanternFish[days]
 
   def newDay(self):
     newFish = {}
