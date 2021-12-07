@@ -18,6 +18,7 @@ class Crabs():
     self.crabs = {}
     positions = [int(num) for num in line.split(',')]
     self.median = int(statistics.median(positions))
+    self.mean = statistics.mean(positions)
     self.maxPosition = 0
     for position in positions:
       self.crabs[position] = 1 + self.crabs.get(position, 0)
@@ -41,22 +42,17 @@ class Crabs():
       amountFuel += fuelPerCrab * crabs
     return amountFuel
 
-  def findMinFuel(self):
-    minFuel = math.inf
-
-    for newPos in range(self.maxPosition):
-      fuel = self.findFuel(newPos)
-      if fuel < minFuel:
-        #        print("Smaller found at: ", newPos, fuel)
-        minFuel = fuel
-    return minFuel
-
 
 def puzzle(filename):
   for line in open(filename, 'r'):
     c = Crabs(line)
 
-  minFuel = c.findMinFuel()
+  if c.mean.is_integer():
+    return c.findFuel(c.mean)
+  else:
+    ceilFuel = c.findFuel(math.ceil(c.mean))
+    floorFuel = c.findFuel(math.floor(c.mean))
+    return min(ceilFuel, floorFuel)
 
   return minFuel
 
