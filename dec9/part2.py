@@ -64,10 +64,12 @@ class HeightMap():
   def getBasinSize(self, row, col):
     basinPoints = set()
     basinPoints.add((row, col))
+    newBasinPoints = basinPoints.copy()
     oldSize = len(basinPoints)
     done = False
     while not done:
-      basinPoints = self.growBasin(basinPoints)
+      newBasinPoints = self.growBasin(newBasinPoints)
+      basinPoints.update(newBasinPoints)
       newSize = len(basinPoints)
       if newSize == oldSize:
         done = True
@@ -75,7 +77,7 @@ class HeightMap():
     return newSize
 
   def growBasin(self, basinPoints):
-    newBasinPoints = basinPoints.copy()
+    newBasinPoints = set()
     for point in basinPoints:
       (row, col) = point
       if self.getValue(row - 1, col) != 9:
