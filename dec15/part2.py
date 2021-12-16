@@ -2,6 +2,7 @@ import argparse
 import time
 import re
 import sys
+import heapq
 
 
 def parseArgs():
@@ -58,32 +59,23 @@ class Maze:
 
   def getLowestRisk(self):
     size = len(self.costs)
-    unvisitedNodes = []
 
-    for row in range(size):
-      for col in range(size):
-        unvisitedNodes.append((row, col))
-    shortestPath = {}
-    previousNodes = {}
+    shortestPath = [[sys.maxsize] * size for row in self.costs]
+    shortestPath[0][0] = 0
+    queue = []
+    heapq.heappush(queue, (0, 0, 0))
 
-    for node in unvisitedNodes:
-      shortestPath[node] = sys.maxsize
-    shortestPath[(0, 0)] = 0
-
-    while unvisitedNodes:
-      currentMinNode = unvisitedNodes[0]
-      for node in unvisitedNodes[1:]:
-        if shortestPath[node] < shortestPath[currentMinNode]:
-          currentMinNode = node
-      for neighbor in self.getNeighbors(currentMinNode):
-        (x, y) = neighbor
-        tmpValue = shortestPath[currentMinNode] + self.getCost(x, y)
-        if tmpValue < shortestPath[neighbor]:
-          shortestPath[neighbor] = tmpValue
-          previousNodes[neighbor] = currentMinNode
-      unvisitedNodes.remove(currentMinNode)
-
-    return shortestPath[(size - 1, size - 1)]
+    while True:
+      print
+      _, x, y = heapq.heappop(queue)
+      c = shortestPath[y][x]
+      if y == (size - 1) and x == (size - 1):
+        return c
+      for (newX, newY) in self.getNeighbors((x, y)):
+        d = c + self.costs[newY][newX]
+        if d < shortestPath[newY][newX]:
+          shortestPath[newY][newX] = d
+          heapq.heappush(queue, (d, newX, newY))
 
   def __repr__(self):
     result = ''
