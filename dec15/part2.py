@@ -66,7 +66,6 @@ class Maze:
     heapq.heappush(queue, (0, 0, 0))
 
     while True:
-      print
       _, x, y = heapq.heappop(queue)
       c = shortestPath[y][x]
       if y == (size - 1) and x == (size - 1):
